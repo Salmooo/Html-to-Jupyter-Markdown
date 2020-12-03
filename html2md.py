@@ -9,7 +9,6 @@ import os
 
 import urllib.request
 
-
 def html2md(html, **options):
     """Simple API"""
     proc = Processor(html,
@@ -21,7 +20,8 @@ _process_tag = ['a', 'b', 'strong', 'blockquote', 'br', 'center', 'code', 'dl', 
 _ignore_tag = ['html','body', 'article', 'aside', 'footer', 'header', 'main', 'section', 'span','figure','dfn']  #该标签被忽略
 _skip_tag = ['head', 'nav', 'menu', 'menuitem','script'] #标签所包含内容完全抛弃
 
-LF = os.linesep
+# LF = os.linesep
+LF = '\n'
 
 class Processor(object):
     def __init__(self, html, **kwargs):
@@ -135,6 +135,12 @@ class Processor(object):
     def _process_span_math(self, tag):
         if 'inline' in tag.attrs.get('class', []):
             return '$' + self._process(tag) + '$'
+        elif 'display' in tag.attrs.get('class', []):
+            text = self._process(tag)
+            if 'begin' in text:
+                return self._process(tag)
+            else:
+                return '$' + self._process(tag) + '$'
         else:
             return self._process(tag)
 

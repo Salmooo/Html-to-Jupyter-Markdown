@@ -145,19 +145,19 @@ def md2ipynb(text):
 
 def monitor_clipboard():
     if  data.hasHtml(): 
-        print('粘贴板存在html，正在转化为ipynb')
+        print('存在html')
         # print(data.html())
         text=html2md(data.html(), **options)
         print(text)
         ipynb=md2ipynb(text)
         output_file = 'notebook' + datetime.now().strftime("%y%m%d%H%M%S")+'.ipynb'
-        print('正在保存...')
+        print('保存。。')
         fp=open(output_file, 'w')
         fp.write(json.dumps(ipynb))
         fp.close()
-        print('完成！')
+        print('ok...')
     else:
-        print('不存在可转化为jupyter的html')
+        print('no')
         print(data.html())
 
 if __name__ == '__main__':
